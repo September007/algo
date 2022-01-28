@@ -1,0 +1,45 @@
+cmake_minimum_required(VERSION 3.20.0)
+
+# vcpkg <--
+if(DEFINED ENV{VCPKG_ROOT} AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
+  set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
+      CACHE STRING "")
+endif()
+if(DEFINED ENV{VCPKG_DEFAULT_TRIPLET} AND NOT DEFINED VCPKG_TARGET_TRIPLET)
+  set(VCPKG_TARGET_TRIPLET "$ENV{VCPKG_DEFAULT_TRIPLET}" CACHE STRING "")
+endif()
+
+
+project(LT)
+# Preprocessor Definition
+# Denote here is on My machine not OJ(LeetCode)
+add_compile_definitions(LOCAL )
+# Source Directories
+set(source_dirs src src/P src/Contest src/Contest/CH src/include)
+set(include_dirs ${source_dirs} )
+include_directories(${include_dirs})
+
+# import gtest
+find_package(GTest CONFIG REQUIRED)
+# set which bunchs of cpp files will be found and built
+option(BUILD_SRC_P "will cpp files under directory src/P be build" ON)
+option(BUILD_SRC_Contest_CH "will cpp files under directory src/Contest/CH be build" ON)
+ 
+set(RegexCppFiles )
+if(BUILD_SRC_P)
+   set(RegexCppFiles ${RegexCppFiles} "src/P/*.cpp")
+endif()
+if(BUILD_SRC_Contest_CH)
+   set(RegexCppFiles ${RegexCppFiles} "src/Contest/CH/*.cpp")
+endif()
+# all these cpp files will  generate a executable file separately 
+file(GLOB SourceFiles ${RegexCppFiles})
+
+
+foreach(whom ${SourceFiles})
+    STRING(REGEX REPLACE ".+/(.+)\\..*" "\\1" FILE_NAME  ${whom})
+    add_executable(${FILE_NAME}  ${whom} )  
+    target_link_libraries(${FILE_NAME} PRIVATE GTest::gmock GTest::gtest GTest::gmock_main GTest::gtest_main)
+endforeach()
+
+

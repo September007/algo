@@ -1,0 +1,6 @@
+#ifdef LOCAL
+#include<pch.h>
+#else
+#define TEST(nl,nr) nl##nr()
+#define EXPECT_EQ(l,r) 
+#endif

@@ -1,3 +1,6 @@
+#############################
+####cmake  ,generate by github#####
+#############################
 CMakeLists.txt.user
 CMakeCache.txt
 CMakeFiles
@@ -9,3 +12,13 @@ install_manifest.txt
 compile_commands.json
 CTestTestfile.cmake
 _deps
+#############################
+#########add for cmake#########
+#############################
+out
+
+#############################
+############VS && VS code##
+#############################
+.vs
+#.vscode
